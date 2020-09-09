@@ -1,5 +1,9 @@
 # goproject
-A Sample Golang project with Standard Layout
+A Sample Golang project with Standard Layout.
+
+It also provides a bootstrap code to begin with for any golang application.
+
+Clone this project and replace the application and module name according to your use case.
 
 ### Package Details
 
