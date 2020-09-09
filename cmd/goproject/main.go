@@ -63,7 +63,7 @@ func NewDBMigrate() *cobra.Command {
 
 func NewDBRollback() *cobra.Command {
 	cmd := &cobra.Command{
-		Use: "dbmigrate",
+		Use: "dbrollback",
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			return RunMigration(func(m db.Migrator) error { return m.Rollback() })
 		},
