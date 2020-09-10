@@ -2,15 +2,14 @@ package i18n
 
 import (
 	"fmt"
-	"github.com/BurntSushi/toml"
 	"path"
 	"path/filepath"
 	"strings"
 
-	"golang.org/x/text/language"
-
+	"github.com/BurntSushi/toml"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/sudo-suhas/xgo/errors"
+	"golang.org/x/text/language"
 )
 
 const (

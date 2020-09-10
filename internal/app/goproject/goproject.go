@@ -56,7 +56,7 @@ func (g *GoProjectAPP) Start() error {
 	stop := signal.SetupHandler()
 	errCh := make(chan error)
 
-	g.apiServer = server.New(g.Config.Address,g.Tr)
+	g.apiServer = server.New(g.Config.Address, g.Tr)
 	g.apiServer.InitRouter(routers...)
 	// Add Global Middlewares here
 	g.apiServer.Use(

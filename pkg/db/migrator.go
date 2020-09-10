@@ -1,13 +1,12 @@
 package db
 
-import _ "github.com/golang-migrate/migrate/source/file"
-
 import (
 	"database/sql"
 	"net/url"
 
 	"github.com/golang-migrate/migrate"
 	"github.com/golang-migrate/migrate/database/postgres"
+	_ "github.com/golang-migrate/migrate/source/file"
 	"github.com/pkg/errors"
 )
 

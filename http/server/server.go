@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"example.com/example/goproject/pkg/i18n"
 	"net/http"
 	"time"
 
@@ -11,6 +10,7 @@ import (
 
 	"example.com/example/goproject/http/httputil"
 	"example.com/example/goproject/http/router"
+	"example.com/example/goproject/pkg/i18n"
 )
 
 type Middleware func(handler http.Handler) http.Handler
