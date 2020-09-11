@@ -50,7 +50,6 @@ func (g *GoProjectAPP) Init() error {
 }
 
 func (g *GoProjectAPP) Start() error {
-	// Add Routers here
 	routers := g.createRoutes()
 
 	stop := signal.SetupHandler()
@@ -63,7 +62,7 @@ func (g *GoProjectAPP) Start() error {
 		middleware.WithRecover,
 		middleware.NewRelic(g.newRelicApp, "/metrics", "/docs", "/ping"),
 		middleware.StatsD(g.statsDClient),
-		middleware.WithLogger(),
+		middleware.WithLogger("/metrics", "/docs", "/ping"),
 	)
 
 	go func() { errCh <- g.apiServer.Run() }()
@@ -78,6 +77,7 @@ func (g *GoProjectAPP) Start() error {
 	}
 }
 
+// Add Routers here
 func (g *GoProjectAPP) createRoutes() []router.Router {
 	return []router.Router{
 		handler.Ping(),
