@@ -35,10 +35,7 @@ func (h httpRouter) Handler() httputil.Handler {
 }
 
 func NewRoute(method, path string, handler httputil.Handler, middlewares ...httputil.Middleware) Route {
-	for i := len(middlewares) - 1; i >= 0; i-- {
-		handler = middlewares[i](handler)
-	}
-	return httpRouter{method: method, path: path, handler: handler}
+	return httpRouter{method: method, path: path, handler: httputil.NewHandlerChain(middlewares...).Then(handler)}
 }
 
 // NewGetRoute initializes a new route with the http method GET.

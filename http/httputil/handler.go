@@ -38,8 +38,8 @@ func MakeHTTPHandler(handler Handler, tr *i18n.Translator) http.HandlerFunc {
 
 		WriteJSON(w, errors.StatusCode(err), &types.ErrorResponse{
 			Code:     errors.WhatKind(err).Code,
-			Message:  tr.Message(lang, i18nKey, nil),
-			Title:    tr.Title(lang, i18nKey, nil),
+			Message:  tr.Message(lang, i18n.TranslationConfig{Key: i18nKey}),
+			Title:    tr.Title(lang, i18n.TranslationConfig{Key: i18nKey}),
 			Severity: "error",
 		})
 	}
@@ -55,4 +55,19 @@ func getLanguange(r *http.Request) string {
 	}
 
 	return "en-ID"
+}
+
+type HandlerChain struct {
+	middlewares []Middleware
+}
+
+func NewHandlerChain(m ...Middleware) *HandlerChain {
+	return &HandlerChain{middlewares: append([]Middleware(nil), m...)}
+}
+
+func (c *HandlerChain) Then(h Handler) Handler {
+	for i := len(c.middlewares) - 1; i >= 0; i-- {
+		h = c.middlewares[i](h)
+	}
+	return h
 }

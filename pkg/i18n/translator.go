@@ -50,7 +50,13 @@ type Translator struct {
 	localizers map[string]*i18n.Localizer
 }
 
-func (t *Translator) Translate(lang, key string, templateData map[string]interface{}) string {
+type TranslationConfig struct {
+	Key          string
+	TemplateData map[string]interface{}
+	PluralCount  interface{}
+}
+
+func (t *Translator) Translate(lang string, conf TranslationConfig) string {
 	lang = mapLanguage(lang)
 
 	localizer, ok := t.localizers[lang]
@@ -58,20 +64,22 @@ func (t *Translator) Translate(lang, key string, templateData map[string]interfa
 		localizer = i18n.NewLocalizer(t.bundle, lang)
 	}
 
-	msg, err := localizer.Localize(&i18n.LocalizeConfig{MessageID: key, TemplateData: templateData})
+	msg, err := localizer.Localize(&i18n.LocalizeConfig{MessageID: conf.Key, TemplateData: conf.TemplateData, PluralCount: conf.PluralCount})
 	if err != nil {
-		return key
+		return conf.Key
 	}
 
 	return msg
 }
 
-func (t *Translator) Title(lang, key string, templateData map[string]interface{}) string {
-	return t.Translate(lang, fmt.Sprintf("%s_title", key), templateData)
+func (t *Translator) Title(lang string, conf TranslationConfig) string {
+	conf.Key += "_title"
+	return t.Translate(lang, conf)
 }
 
-func (t *Translator) Message(lang, key string, templateData map[string]interface{}) string {
-	return t.Translate(lang, fmt.Sprintf("%s_message", key), templateData)
+func (t *Translator) Message(lang string, conf TranslationConfig) string {
+	conf.Key += "_message"
+	return t.Translate(lang, conf)
 }
 
 func mapLanguage(lang string) string {
